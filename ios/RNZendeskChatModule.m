@@ -33,17 +33,11 @@ RCT_EXPORT_METHOD(startChat:(NSDictionary *)options) {
 
   dispatch_sync(dispatch_get_main_queue(), ^{
     [ZDCChat startChat:^(ZDCConfig *config) {
-      if (options[@"department"]) {
-        config.department = options[@"department"];
-      }
-      if (options[@"tags"]) {
-        config.tags = options[@"tags"];
-      }
       config.preChatDataRequirements.name       = ZDCPreChatDataRequired;
-      config.preChatDataRequirements.email      = ZDCPreChatDataRequired;
-      config.preChatDataRequirements.phone      = ZDCPreChatDataRequired;
-      config.preChatDataRequirements.department = ZDCPreChatDataRequiredEditable;
-      config.preChatDataRequirements.message    = ZDCPreChatDataRequired;
+      config.preChatDataRequirements.email      = options[@"emailNotRequired"] ? ZDCPreChatDataNotRequired : ZDCPreChatDataRequired;
+      config.preChatDataRequirements.phone      = options[@"phoneNotRequired"] ? ZDCPreChatDataNotRequired : ZDCPreChatDataRequired;;
+      config.preChatDataRequirements.department = options[@"departmentNotRequired"] ? ZDCPreChatDataNotRequired : ZDCPreChatDataRequired;;
+      config.preChatDataRequirements.message    = options[@"messageNotRequired"] ? ZDCPreChatDataNotRequired : ZDCPreChatDataRequired;;
     }];
   });
 }
